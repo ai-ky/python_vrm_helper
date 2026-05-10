@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手把手教你做：Python 3D 桌面小幫手</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --bg: #ecf0f1;
+            --text: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            opacity: 0.8;
+        }
+        .step {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .step:hover {
+            transform: translateY(-5px);
+        }
+        .step-number {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        h2 {
+            display: inline-block;
+            margin: 0;
+            color: var(--primary);
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .description {
+            flex: 1;
+            min-width: 300px;
+        }
+        .image-box {
+            flex: 1;
+            min-width: 300px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+        }
+        .image-box img {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+        }
+        code {
+            background: #f8f8f8;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #e74c3c;
+        }
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Python 3D 桌面小幫手實作教學</h1>
+            <p class="subtitle">從零開始打造一個透明、互動、有物理感的 VRM 角色</p>
+        </header>
+
+        <!-- Step 1: Transparency -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <h2>基礎地基：完全透明視窗</h2>
+            </div>
+            <div class="content">
+                <div class="description">
+                    <p>首先，我們要建立一個能在桌面上「消失」的視窗。右圖展示了<b>未處理前</b>的狀態：帶有標題列與實體邊框。</p>
+                    <p>這需要使用 <code>PySide6</code> 設定 <code>FramelessWindowHint</code> 與 <code>WA_TranslucentBackground</code> 來消除它們。</p>
+                    <pre>fmt = QSurfaceFormat()
+fmt.setAlphaBufferSize(8)
+QSurfaceFormat.setDefaultFormat(fmt)</pre>
+                </div>
+                <div class="image-box">
+                    <img src="screenshot_with_border.png" alt="帶邊框的原始狀態">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Shadow Removal -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-number">2</span>
+                <h2>底層技術：消除 Windows 原生陰影</h2>
+            </div>
+            <div class="content">
+                <div class="description">
+                    <p>即便開啟了透明，Windows 依然會給視窗留下一圈淡灰色的陰影（如右圖所示）。</p>
+                    <p>我們需要透過 <code>ctypes</code> 呼叫 <code>user32.dll</code> 來暴力移除 <code>CS_DROPSHADOW</code>，達成真正的無痕效果。</p>
+                </div>
+                <div class="image-box">
+                    <img src="screenshot_with_shadow.png" alt="帶有原生陰影的狀態">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: LookAt -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-number">3</span>
+                <h2>互動靈魂：視線追蹤 (LookAt)</h2>
+            </div>
+            <div class="content">
+                <div class="description">
+                    <p>讓角色盯著你的游標看！我們直接操作 VRM 的 <code>head</code> 骨骼，並計算滑鼠與角色的相對角度。</p>
+                    <p><strong>教學重點：</strong> 套用姿勢時需排除 <code>head</code> 骨骼，並加入 <code>lerp</code> 平滑處理，避免轉頭太過生硬。</p>
+                </div>
+                <div class="image-box">
+                    <img src="screenshot_lookat.gif" alt="視線追蹤展示">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Poses & Double Click -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-number">4</span>
+                <h2>動態切換：雙擊更換姿勢</h2>
+            </div>
+            <div class="content">
+                <div class="description">
+                    <p>透過 <code>QWebChannel</code> 搭建 Python 與 JS 的通訊橋樑。雙擊滑鼠時，JS 通知 Python，Python 讀取新的 JSON 姿態並推送到前端。</p>
+                    <p><strong>教學重點：</strong> 處理 JSON 時使用 <code>json.dumps</code> 確保特殊字元正確跳脫。</p>
+                </div>
+                <div class="image-box">
+                    <img src="screenshot_pose.gif" alt="姿勢切換展示">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Zooming -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-number">5</span>
+                <h2>視覺優化：滾輪縮放與自適應視窗</h2>
+            </div>
+            <div class="content">
+                <div class="description">
+                    <p>使用者可以使用滾輪縮放角色，視窗會自動連動調整大小，並始終保留 10% 的緩衝空間，確保動作不會「破圖」。</p>
+                    <p><strong>教學重點：</strong> 動態計算 3D Bounding Box 並同步更新 <code>fitWindowToModel</code> 函式。</p>
+                </div>
+                <div class="image-box">
+                    <img src="screenshot_zoom.gif" alt="拖拽與縮放展示">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>專案檔案：<code>app.py</code>, <code>index.html</code>, <code>charactor.vrm</code></p>
+            <p>© 2026 AI 助教 - 致力於 3D 桌面互動技術教學</p>
+        </div>
+    </div>
+</body>
+</html>
