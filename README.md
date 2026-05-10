@@ -7,15 +7,19 @@
 
 ### 1. 視線追蹤 (LookAt)
 角色眼神與頭部會平滑跟隨滑鼠移動：
-![LookAt Demo](screenshot_lookat.gif)
+![LookAt Demo](docs/screenshot_lookat.gif)
 
 ### 2. 動態切換姿勢 (Double Click)
 左鍵雙擊角色可即時切換不同的 Pose：
-![Pose Demo](screenshot_pose.gif)
+![Pose Demo](docs/screenshot_pose.gif)
 
 ### 3. 視窗拖拽與滾輪縮放
 支援自由移動視窗，並透過滾輪即時縮放角色與視窗大小：
-![Zoom Demo](screenshot_zoom.gif)
+![Zoom Demo](docs/screenshot_zoom.gif)
+
+## 互動教學網頁 (Online Tutorial)
+本專案提供詳細的開發教學網頁，請造訪：
+[https://ai-ky.github.io/python_vrm_helper/](https://ai-ky.github.io/python_vrm_helper/)
 
 ## 功能
 - **透明背景與無邊框視窗**：解決 Windows 陰影問題，達成無視窗邊界感。
@@ -47,5 +51,6 @@ python app.py
 - `index.html`: 渲染層，使用 Three.js 與 three-vrm 進行 3D 渲染，並處理物理模擬。
 - `charactor.vrm`: 預設載入的模型檔案。
 - `pose.json`: 預設載入的姿勢檔案。
-- `Tutorial_Web.html`: 互動式開發教學網頁。
+- `docs/`: 包含 GitHub Pages 靜態教學網頁與動態演示素材。
+- `tools/`: 開發過程中使用的錄影與截圖自動化工具。
 - `Implementation_Details.md`: 詳細技術實作報告。

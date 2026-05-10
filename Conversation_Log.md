@@ -121,9 +121,14 @@
 *   **AI**: 實作 `record_pose_gif.py`。自動執行雙擊，並在點擊瞬間讓虛擬游標「閃爍紅色」以強化視覺提示。
 *   **User**: 第5張也改gif demo 滑鼠滾輪縮放與自適應視窗 程式執行後先用滑鼠左鍵選萬視窗拖到螢幕中央，再滾輸縮放，過程做錄影變gif。第1張改成程式執行後擷圖，但做一要影像處理，把角色視窗的周圍用灰線框起來
 *   **AI**: 實作自動化拖拽與縮放錄製。實作 `capture_framed.py` 透過影像處理為 Step 1 畫上邊框。
-*   **User**: 第1張和第2張圖要demo原本有帶框及陰影的版本，請重新實作一個新project來demo
+*   **User**: 第1張 and 第2張圖要demo原本有帶框及陰影的版本，請重新實作一個新project來demo
 *   **AI**: 建立 `python_vrm_helper_original` 臨時專案。
 *   **User**: 沒有顯示到 vrm 角色
 *   **AI**: 修正 Demo 程式碼缺失的通訊 Slot，並延長載入等待時間至 12 秒，成功捕捉到包含角色的「Before」對比圖。
-*   **User**: 更新對話記錄，並把我的內容推到github上面
-*   **AI**: 更新全對話日誌，並準備執行 Git 推送作業。
+
+---
+
+### 10. 專案組織與 GitHub Pages 上架
+*   **User**: capture_framed.py 這類型過程中用到的工具另外放一個資料夾，教學網頁及相關檔案再放另一個資料夾(做成github靜態網頁，幫我上架一下)
+*   **AI**: 建立 `tools` 與 `docs` 資料夾。將自動化腳本移入 `tools`，將教學網頁與 GIF 素材移入 `docs` 並重新命名為 `index.html` 以符合 GitHub Pages 規範。更新 `README.md` 指向新路徑並加入線上教學連結。
+*   **AI**: 執行 Git Commit 與 Push，並引導使用者開啟 GitHub Pages 設定。
